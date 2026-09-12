@@ -1,0 +1,48 @@
+# =============================================================================
+# ESPHOME ENTRY POINT - CrowPanel Advanced 10.1inch ESP32-P4 HMI AI Display 1024x600 IPS (V1.0 label)
+# =============================================================================
+# V1.0 has only 1 SDIO channel connected to esp_hosted
+# User-facing config file. Set your device name and WiFi credentials here.
+# The remote package reference pulls in the full device configuration from
+# GitHub so the device stays up-to-date automatically.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Device identity
+# ---------------------------------------------------------------------------
+substitutions:
+  name: "cp-adv-101-1024x600-v10"
+#  name: "homedisplay"
+  friendly_name: "CP Advanced 10.1inch"
+
+# ---------------------------------------------------------------------------
+# WiFi credentials (stored in secrets.yaml)
+# ---------------------------------------------------------------------------
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# ---------------------------------------------------------------------------
+# Remote package (pulls full config from GitHub)
+# ---------------------------------------------------------------------------
+##packages:
+##  setup:
+##    url: https://github.com/lamiskin/espcontrol-community-devices/
+##    file: devices/crowpanel-esp32-p4-adv-101-1024x600-v10/packages.yaml
+##    refresh: 1s
+packages:
+  espcontrol: !include packages.yaml
+
+# ---------------------------------------------------------------------------
+# Keyless API encryption (upstream's common/addon/api_encryption_dynamic.yaml).
+# The first provisioning connection is plaintext; Home Assistant then supplies a
+# per-device key the panel keeps. Set your own api.encryption.key here to
+# override it.
+# ---------------------------------------------------------------------------
+api:
+  encryption:
+    key: !secret api_encryption_key
